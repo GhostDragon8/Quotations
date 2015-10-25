@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MyQuotes.Models.Quotations>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Quotations!</h2>
+
+<div class="btn btn-success">
+    @Html.ActionLink("Create New", "Create")
+</div>
+@using (Html.BeginForm("Index", "Quotations", FormMethod.Get))
+{
+    <p>
+        Search @Html.TextBox("searchTerms")
+        <input type="submit" class="btn btn-info" value="GO" />
+        @Html.ActionLink("Display All", "Index", null, new { @class = "btn btn-success" })
+    </p>
+}
+@using GridMvc.Html
+@Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(quote => quote.Quote);
+    columns.Add(quote => quote.Author).Sortable(true);
+    columns.Add(quote => quote.Category.Name).Titled("Category").Sortable(true);
+    columns.Add(quote => quote.DateAdded).Titled("Date Added").Format("{0:d}").Sortable(true);
+
+    columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-info" }));
+    columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-warning" }));
+    columns.Add().Encoded(false).Sanitized(false).RenderValueAs(item => @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" }));
+
+})
+<!--
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateAdded)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+    -->
