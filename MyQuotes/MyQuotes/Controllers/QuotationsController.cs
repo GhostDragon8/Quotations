@@ -17,10 +17,12 @@ namespace MyQuotes.Controllers
         // GET: Quotations
         public ActionResult Index(string searchTerms)
         {
+            ViewBag.Search = false;
             var all = from a in db.Quotations select a;
 
             if (!(string.IsNullOrEmpty(searchTerms)))
             {
+                ViewBag.Search = true;
                 all = all.Where(a => a.Quote.Contains(searchTerms) || a.Author.Contains(searchTerms) || a.Category.Name.Contains(searchTerms));
 
             }

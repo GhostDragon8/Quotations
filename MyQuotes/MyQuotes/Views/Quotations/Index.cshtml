@@ -14,7 +14,10 @@
     <p>
         Search @Html.TextBox("searchTerms")
         <input type="submit" class="btn btn-info" value="GO" />
-        @Html.ActionLink("Display All", "Index", null, new { @class = "btn btn-success" })
+        @if (ViewBag.Search)
+        {
+            @Html.ActionLink("Display All", "Index", null, new { @class = "btn btn-success" })
+        }
     </p>
 }
 @using GridMvc.Html
